@@ -63,20 +63,22 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LCD_EN_Pin GPIO_PIN_10
-#define LCD_EN_GPIO_Port GPIOB
-#define LCD_DB6_Pin GPIO_PIN_7
-#define LCD_DB6_GPIO_Port GPIOC
-#define LCD_DB4_Pin GPIO_PIN_8
-#define LCD_DB4_GPIO_Port GPIOA
-#define LCD_DB5_Pin GPIO_PIN_9
-#define LCD_DB5_GPIO_Port GPIOA
-#define LCD_RW_Pin GPIO_PIN_4
-#define LCD_RW_GPIO_Port GPIOB
-#define LCD_RS_Pin GPIO_PIN_5
-#define LCD_RS_GPIO_Port GPIOB
-#define LCD_DB7_Pin GPIO_PIN_6
-#define LCD_DB7_GPIO_Port GPIOB
+#define LCD_EN_Pin GPIO_PIN_7
+#define LCD_EN_GPIO_Port GPIOA
+#define LCD_DB6_Pin GPIO_PIN_10
+#define LCD_DB6_GPIO_Port GPIOB
+#define RS485_NRE_Pin GPIO_PIN_13
+#define RS485_NRE_GPIO_Port GPIOB
+#define LCD_RS_Pin GPIO_PIN_7
+#define LCD_RS_GPIO_Port GPIOC
+#define LCD_DB7_Pin GPIO_PIN_8
+#define LCD_DB7_GPIO_Port GPIOA
+#define RS485_DE_Pin GPIO_PIN_3
+#define RS485_DE_GPIO_Port GPIOB
+#define LCD_DB5_Pin GPIO_PIN_4
+#define LCD_DB5_GPIO_Port GPIOB
+#define LCD_DB4_Pin GPIO_PIN_5
+#define LCD_DB4_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
