@@ -15,11 +15,34 @@
 
 extern struct bme280_dev bme280_device;
 
-int BME_Init();
-struct bme280_dev* BME_Get_Sensor();
+/**
+ * @brief
+ *
+ * @return int
+ */
+int Bme_Init();
 
+/**
+ * @brief
+ *
+ * @return struct bme280_dev*
+ */
+struct bme280_dev* Bme_GetSensor();
+
+/**
+ * @brief
+ *
+ * @return int
+ */
 int BME_SetSensor();
 
+/**
+ * @brief
+ *
+ * @param comp_data
+ * @param data
+ * @return int
+ */
 int BME_GetData(uint8_t comp_data, struct bme280_data* data);
 
 

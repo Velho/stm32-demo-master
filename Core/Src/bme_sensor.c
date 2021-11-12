@@ -23,7 +23,13 @@ static uint8_t dev_addr = BME280_I2C_ADDR_PRIM;
 
 struct bme280_dev bme280_device;
 
-
+/**
+ * @brief FIXME
+ * Working with the uC-3 kernel it might be wrong inside the tasks
+ * to just wait for the peripheral..
+ * @param period
+ * @param intf_ptr
+ */
 static void Delay_Ms(uint32_t period, void* intf_ptr)
 {
 	HAL_Delay(period);
@@ -31,8 +37,8 @@ static void Delay_Ms(uint32_t period, void* intf_ptr)
 
 static void Configure_Device()
 {
-	bme280_device.read = BME_I2C_Read;
-	bme280_device.write = BME_I2C_Write;
+	bme280_device.read = Bme_I2C_Read;
+	bme280_device.write = Bme_I2C_Write;
 	bme280_device.delay_us = Delay_Ms;
 	bme280_device.intf_ptr = &dev_addr; // BME280_I2C_ADDR_SEC
 	bme280_device.intf = BME280_I2C_INTF;
@@ -67,12 +73,12 @@ static int8_t Set_Device_Operational(struct bme280_dev* device)
 	return Set_Sensor_NormalMode(device);
 }
 
-struct bme280_dev* BME_Get_Sensor()
+struct bme280_dev* Bme_Get_Sensor()
 {
 	return &bme280_device;
 }
 
-int BME_GetData(uint8_t comp_data, struct bme280_data* data)
+int Bme_GetData(uint8_t comp_data, struct bme280_data* data)
 {
 	if (data == NULL)
 	{
@@ -88,7 +94,7 @@ int BME_GetData(uint8_t comp_data, struct bme280_data* data)
 }
 
 
-int BME_Init()
+int Bme_Init()
 {
 	int8_t result = 0;
 

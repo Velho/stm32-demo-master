@@ -44,13 +44,13 @@ void MX_I2C1_Init(void);
 /**
  *
  */
-int8_t BME_I2C_Read(uint8_t reg_addr, uint8_t *reg_data,
+int8_t Bme_I2C_Read(uint8_t reg_addr, uint8_t *reg_data,
 		uint32_t len, void *intf_ptr);
 
 /**
  *
  */
-int8_t BME_I2C_Write(uint8_t reg_addr, const uint8_t *reg_data,
+int8_t Bme_I2C_Write(uint8_t reg_addr, const uint8_t *reg_data,
 		uint32_t len, void *intf_ptr);
 
 /* USER CODE END Prototypes */

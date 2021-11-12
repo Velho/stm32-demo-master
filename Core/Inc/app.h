@@ -15,6 +15,11 @@ extern "C" {
 #include "main.h"
 
 /**
+ * TODO
+ *  AppTask was used as testing bench for the poc implementation. Find new ways to utilize the module.
+ */
+
+/**
  * @brief
  *
  */

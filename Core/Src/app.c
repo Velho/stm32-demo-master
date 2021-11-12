@@ -23,7 +23,7 @@
 static void Update_Sensors()
 {
 	struct bme280_data sensor_data;
-	BME_GetData(BME280_ALL, &sensor_data);
+	Bme_GetData(BME280_ALL, &sensor_data);
 
 	DataStorage_AppendBuffer(&sensor_data, SENSOR_TYPE_ALL);
 }
@@ -36,7 +36,7 @@ int App_Init()
 	// HAL_UART_Receive_IT(&huart2, GetRXBuffer(), 2);
 
 	DataStorage_Init();
-	rslt = BME_Init();
+	rslt = Bme_Init();
 
 	Display_Init();
 
@@ -54,7 +54,7 @@ int App_Task()
 
 	char buffer[33];
 	struct bme280_data sensor_data;
-	BME_GetData(BME280_ALL, &sensor_data);
+	Bme_GetData(BME280_ALL, &sensor_data);
 
 	// sensor_data.temperature = 1;
 	snprintf(buffer, 32, "%0.2f", sensor_data.temperature);

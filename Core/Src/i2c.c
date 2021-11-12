@@ -115,7 +115,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
 
 /* USER CODE BEGIN 1 */
 
-int8_t BME_I2C_Read(uint8_t reg_addr, uint8_t *reg_data,
+int8_t Bme_I2C_Read(uint8_t reg_addr, uint8_t *reg_data,
 		uint32_t len, void *intf_ptr)
 {
 	uint16_t device_addr = ((*(uint16_t*) bme280_device.intf_ptr) << 1);
@@ -131,7 +131,7 @@ int8_t BME_I2C_Read(uint8_t reg_addr, uint8_t *reg_data,
 	}
 }
 
-int8_t BME_I2C_Write(uint8_t reg_addr, const uint8_t *reg_data,
+int8_t Bme_I2C_Write(uint8_t reg_addr, const uint8_t *reg_data,
 		uint32_t len, void *intf_ptr)
 {
 	uint16_t device_addr = ((*(uint16_t*) bme280_device.intf_ptr) << 1);

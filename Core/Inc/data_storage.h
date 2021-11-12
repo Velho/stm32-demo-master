@@ -21,6 +21,11 @@ typedef struct {
 } DataStorageType;
 
 typedef struct {
+	void * memory;
+
+} DataStorageValue;
+
+typedef struct {
 	DataStorageType storage_list[STORAGE_BUFFER_LENGTH];
 	size_t size;
 
