@@ -22,32 +22,32 @@
 void LCD_DATA(unsigned char Data)
 {
     if(Data & 1)
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOA, LCD16x2_CfgParam.D4_PIN, 1);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D4_PIN.GPIO, LCD16x2_CfgParam.D4_PIN.PIN, 1);
     else
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOA, LCD16x2_CfgParam.D4_PIN, 0);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D4_PIN.GPIO, LCD16x2_CfgParam.D4_PIN.PIN, 0);
     if(Data & 2)
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOA, LCD16x2_CfgParam.D5_PIN, 1);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D5_PIN.GPIO, LCD16x2_CfgParam.D5_PIN.PIN, 1);
     else
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOA, LCD16x2_CfgParam.D5_PIN, 0);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D5_PIN.GPIO, LCD16x2_CfgParam.D5_PIN.PIN, 0);
     if(Data & 4)
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOC, LCD16x2_CfgParam.D6_PIN, 1);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D6_PIN.GPIO, LCD16x2_CfgParam.D6_PIN.PIN, 1);
     else
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOC, LCD16x2_CfgParam.D6_PIN, 0);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D6_PIN.GPIO, LCD16x2_CfgParam.D6_PIN.PIN, 0);
     if(Data & 8)
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.D7_PIN, 1);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D7_PIN.GPIO, LCD16x2_CfgParam.D7_PIN.PIN, 1);
     else
-    	HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.D7_PIN, 0);
+    	HAL_GPIO_WritePin(LCD16x2_CfgParam.D7_PIN.GPIO, LCD16x2_CfgParam.D7_PIN.PIN, 0);
 }
 void LCD_CMD(unsigned char a_CMD)
 {
     // Select Command Register
-    HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.RS_PIN, 0);
+    HAL_GPIO_WritePin(LCD16x2_CfgParam.RS_PIN.GPIO, LCD16x2_CfgParam.RS_PIN.PIN, 0);
     // Move The Command Data To LCD
     LCD_DATA(a_CMD);
     // Send The EN Clock Signal
-    HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, 1);
+    HAL_GPIO_WritePin(LCD16x2_CfgParam.EN_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, 1);
     DWT_Delay_us(LCD16x2_CfgParam.LCD_EN_Delay);
-    HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, 0);
+    HAL_GPIO_WritePin(LCD16x2_CfgParam.EN_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, 0);
     DWT_Delay_us(LCD16x2_CfgParam.LCD_EN_Delay);
 }
 void LCD_Clear()
@@ -82,8 +82,8 @@ void LCD_Init()
 	DWT_Delay_Init();
 
 	// The Init. Procedure As Described In The Datasheet
-    HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.RS_PIN, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LCD16x2_CfgParam.RS_PIN.GPIO, LCD16x2_CfgParam.RS_PIN.PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LCD16x2_CfgParam.RS_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, GPIO_PIN_RESET);
     LCD_DATA(0x00);
     DWT_Delay_ms(150);
     LCD_CMD(0x03);
@@ -117,18 +117,18 @@ void LCD_Write_Char(char Data)
    Low4  = Data & 0x0F;
    High4 = Data & 0xF0;
 
-   HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.RS_PIN, 1);
+   HAL_GPIO_WritePin(LCD16x2_CfgParam.RS_PIN.GPIO, LCD16x2_CfgParam.RS_PIN.PIN, 1);
 
    LCD_DATA(High4>>4);
-   HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, 1);
+   HAL_GPIO_WritePin(LCD16x2_CfgParam.EN_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, 1);
    DWT_Delay_us(LCD16x2_CfgParam.LCD_EN_Delay);
-   HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, 0);
+   HAL_GPIO_WritePin(LCD16x2_CfgParam.EN_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, 0);
    DWT_Delay_us(LCD16x2_CfgParam.LCD_EN_Delay);
 
    LCD_DATA(Low4);
-   HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, 1);
+   HAL_GPIO_WritePin(LCD16x2_CfgParam.EN_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, 1);
    DWT_Delay_us(LCD16x2_CfgParam.LCD_EN_Delay);
-   HAL_GPIO_WritePin(LCD16x2_CfgParam.LCD_GPIOB, LCD16x2_CfgParam.EN_PIN, 0);
+   HAL_GPIO_WritePin(LCD16x2_CfgParam.EN_PIN.GPIO, LCD16x2_CfgParam.EN_PIN.PIN, 0);
    DWT_Delay_us(LCD16x2_CfgParam.LCD_EN_Delay);
 }
 void LCD_Write_String(char *str)

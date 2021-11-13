@@ -16,19 +16,21 @@
 
 #include "stm32l1xx_hal.h"
 
+typedef struct {
+	GPIO_TypeDef * 	GPIO;
+	uint16_t 		PIN;
+} LCD16x2_PinConf;
+
 typedef struct
 {
-	GPIO_TypeDef * LCD_GPIOA;
-	GPIO_TypeDef * LCD_GPIOB;
-	GPIO_TypeDef * LCD_GPIOC;
+	LCD16x2_PinConf D4_PIN;
+	LCD16x2_PinConf D5_PIN;
+	LCD16x2_PinConf D6_PIN;
+	LCD16x2_PinConf D7_PIN;
 
-	uint16_t D4_PIN;
-	uint16_t D5_PIN;
-	uint16_t D6_PIN;
-	uint16_t D7_PIN;
+	LCD16x2_PinConf EN_PIN;
+	LCD16x2_PinConf RS_PIN;
 
-	uint16_t EN_PIN;
-	uint16_t RS_PIN;
 	uint16_t LCD_EN_Delay;
 }LCD16x2_CfgType;
 
