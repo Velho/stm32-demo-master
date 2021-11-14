@@ -64,12 +64,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define GPIO_BluePushButton1_Pin GPIO_PIN_13
+#define GPIO_BluePushButton1_GPIO_Port GPIOC
+#define GPIO_PushButton1_Pin GPIO_PIN_12
+#define GPIO_PushButton1_GPIO_Port GPIOB
 #define LCD_EN_Pin GPIO_PIN_7
 #define LCD_EN_GPIO_Port GPIOA
 #define LCD_DB6_Pin GPIO_PIN_10
 #define LCD_DB6_GPIO_Port GPIOB
-#define GPIO_PB1_Pin GPIO_PIN_12
-#define GPIO_PB1_GPIO_Port GPIOB
 #define RS485_NRE_Pin GPIO_PIN_13
 #define RS485_NRE_GPIO_Port GPIOB
 #define LCD_DB7_Pin GPIO_PIN_8

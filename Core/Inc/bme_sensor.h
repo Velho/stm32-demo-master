@@ -34,7 +34,7 @@ struct bme280_dev* Bme_GetSensor();
  *
  * @return int
  */
-int BME_SetSensor();
+int Bme_SetSensor();
 
 /**
  * @brief
@@ -43,7 +43,7 @@ int BME_SetSensor();
  * @param data
  * @return int
  */
-int BME_GetData(uint8_t comp_data, struct bme280_data* data);
+int Bme_GetData(uint8_t comp_data, struct bme280_data* data);
 
 
 #endif /* INC_BME_SENSOR_H_ */
