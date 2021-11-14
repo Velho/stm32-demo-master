@@ -193,14 +193,6 @@ static void StartupTask(void *p_arg)
 
 	BSP_OS_TickEnable();
 
-	/* Initialize all configured peripherals (Note, after generated peripf are
-	   init in main). */
-
-	MX_GPIO_Init();
-	MX_USART1_UART_Init();
-	MX_I2C1_Init();
-
-
 	OSStatTaskCPUUsageInit(&os_err);
 
 	/*
@@ -209,9 +201,12 @@ static void StartupTask(void *p_arg)
 			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR ), &os_err);
 	 */
 
-//	OSTaskCreate(&AppPushButtonTCB, "App Push Button Task", App_PushButtonTask,
-//			0u, 6u, AppPushButtonStk, 0u, 128u, 0u, 0u, 0u,
-//			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR ), &os_err);
+	App_Init();
+
+	OSTaskCreate(&AppPushButtonTCB, "App Push Button Task", App_PushButtonTask,
+			0u, 6u, AppPushButtonStk, 0u, 128u, 0u, 0u, 0u,
+			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR ), &os_err);
+
 
 
 	if (os_err != OS_ERR_NONE)
@@ -219,16 +214,13 @@ static void StartupTask(void *p_arg)
 		Error_Handler();
 	}
 
+	OSTaskCreate(&AppTaskTCB, "App Task", App_Task,
+			0u, 5u, AppTaskStk, 0u, 128u, 0u, 0u, 0u,
+			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR ), &os_err);
 
-
-	// App_Init();
-	// App_Task();
-
-	App_Init();
-
-	while (TRUE)
+	if (os_err != OS_ERR_NONE)
 	{
-		App_Task();
+		Error_Handler();
 	}
 }
 /* USER CODE END 4 */

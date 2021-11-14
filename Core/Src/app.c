@@ -15,12 +15,11 @@
 #include "main.h"
 #include "sensor_datatype.h"
 
-
 /**
-#define GPIO_BluePushButton1_Pin GPIO_PIN_13
-#define GPIO_BluePushButton1_GPIO_Port GPIOC
-#define GPIO_PushButton1_Pin GPIO_PIN_12
-#define GPIO_PushButton1_GPIO_Port GPIOB
+ #define GPIO_BluePushButton1_Pin GPIO_PIN_13
+ #define GPIO_BluePushButton1_GPIO_Port GPIOC
+ #define GPIO_PushButton1_Pin GPIO_PIN_12
+ #define GPIO_PushButton1_GPIO_Port GPIOB
  */
 
 #ifndef SEL_HW_PUSHBUTTON
@@ -32,15 +31,18 @@
 #endif
 
 
+
 OS_TCB AppPushButtonTCB;
 CPU_STK AppPushButtonStk[128u];
+
+OS_TCB AppTaskTCB;
+CPU_STK AppTaskStk[128u];
 
 static int g_user_pb_pressed = 0;
 static float g_user_float = 1.2;
 static char g_text[] = "Status: %d";
 
 static char buffer[33];
-
 
 static void Update_Sensors()
 {
@@ -52,52 +54,33 @@ static void Update_Sensors()
 
 int App_Init()
 {
-//	int rslt;
-
-	// Initialize the RX Interrupt.
-	// HAL_UART_Receive_IT(&huart2, GetRXBuffer(), 2);
-
-//	DataStorage_Init();
-//	rslt = Bme_Init();
-
 	Display_Init();
 
 	return 0;
 }
 
-int App_Task()
+void App_Task(void *p_arg)
 {
+	UNUSED(p_arg);
 	OS_ERR p_err;
-
 
 	// float to string conversion.
 	// char * str = gcvt
 
-	snprintf(buffer, 33, g_text, g_user_pb_pressed);
-
-	LCD_Clear();
-	LCD_Set_Cursor(1, 1);
-	LCD_Write_String(buffer);
-
-	// LCD_Set_Cursor(2, 1);
-	// LCD_Write_String(buffer);
-	// HAL_Delay(10000);
-
-	if (HAL_GPIO_ReadPin(APP_PUSHBUTTON_GPIO, APP_PUSHBUTTON_PIN) == GPIO_PIN_RESET)
+	while (1)
 	{
-		if (g_user_pb_pressed >= 10)
-		{
-			g_user_pb_pressed = 0;
-		}
+		snprintf(buffer, 33, g_text, g_user_pb_pressed);
 
-		g_user_pb_pressed += 1;
+		LCD_Clear();
+		LCD_Set_Cursor(1, 1);
+		LCD_Write_String(buffer);
+
+		// LCD_Set_Cursor(2, 1);
+		// LCD_Write_String(buffer);
+		// HAL_Delay(10000);
+
+		OSTimeDlyHMSM(0, 0, 5, 0, OS_OPT_TIME_HMSM_STRICT, &p_err);
 	}
-
-
-
-	OSTimeDlyHMSM(0, 0, 5, 0, OS_OPT_TIME_HMSM_STRICT, &p_err);
-
-	return 0;
 }
 
 int App_GetCounter()
@@ -107,11 +90,14 @@ int App_GetCounter()
 
 void App_PushButtonTask(void *p_arg)
 {
-	(void) p_arg;
+	UNUSED(p_arg);
+
+	OS_ERR p_err;
 
 	while (1)
 	{
-		if (HAL_GPIO_ReadPin(APP_PUSHBUTTON_GPIO, APP_PUSHBUTTON_PIN) == GPIO_PIN_RESET)
+		if (HAL_GPIO_ReadPin(APP_PUSHBUTTON_GPIO, APP_PUSHBUTTON_PIN)
+				== GPIO_PIN_RESET)
 		{
 			if (g_user_pb_pressed >= 10)
 			{
@@ -121,7 +107,6 @@ void App_PushButtonTask(void *p_arg)
 			g_user_pb_pressed += 1;
 		}
 
-		OS_ERR p_err;
 		OSTimeDlyHMSM(0, 0, 5, 0, OS_OPT_TIME_HMSM_STRICT, &p_err);
 	}
 }

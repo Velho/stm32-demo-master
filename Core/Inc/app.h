@@ -22,6 +22,9 @@ extern "C" {
 extern OS_TCB       AppPushButtonTCB;
 extern CPU_STK      AppPushButtonStk[128u];
 
+extern OS_TCB 		AppTaskTCB;
+extern CPU_STK 		AppTaskStk[128u];
+
 
 /**
  * @brief
@@ -34,14 +37,14 @@ int App_Init();
  *
  * @return int
  */
-int App_Task();
+int App_GetCounter();
 
 /**
  * @brief
  *
- * @return int
  */
-int App_GetCounter();
+void App_Task(void *p_arg);
+
 
 /**
  * @brief Poll the push button.
