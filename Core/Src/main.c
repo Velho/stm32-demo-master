@@ -215,7 +215,7 @@ static void StartupTask(void *p_arg)
 	}
 
 	OSTaskCreate(&AppTaskTCB, "App Task", App_Task,
-			0u, 5u, AppTaskStk, 0u, 128u, 0u, 0u, 0u,
+			0u, 5u, AppTaskStk, 0u, 256u, 0u, 0u, 0u,
 			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR ), &os_err);
 
 	if (os_err != OS_ERR_NONE)

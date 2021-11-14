@@ -23,7 +23,7 @@ extern OS_TCB       AppPushButtonTCB;
 extern CPU_STK      AppPushButtonStk[128u];
 
 extern OS_TCB 		AppTaskTCB;
-extern CPU_STK 		AppTaskStk[128u];
+extern CPU_STK 		AppTaskStk[256u];
 
 
 /**

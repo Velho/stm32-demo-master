@@ -15,12 +15,7 @@
 #include "main.h"
 #include "sensor_datatype.h"
 
-/**
- #define GPIO_BluePushButton1_Pin GPIO_PIN_13
- #define GPIO_BluePushButton1_GPIO_Port GPIOC
- #define GPIO_PushButton1_Pin GPIO_PIN_12
- #define GPIO_PushButton1_GPIO_Port GPIOB
- */
+#define SEL_HW_PUSHBUTTON
 
 #ifndef SEL_HW_PUSHBUTTON
 #define APP_PUSHBUTTON_GPIO			GPIO_BluePushButton1_GPIO_Port
@@ -36,7 +31,7 @@ OS_TCB AppPushButtonTCB;
 CPU_STK AppPushButtonStk[128u];
 
 OS_TCB AppTaskTCB;
-CPU_STK AppTaskStk[128u];
+CPU_STK AppTaskStk[256u];
 
 static int g_user_pb_pressed = 0;
 static float g_user_float = 1.2;
@@ -64,9 +59,6 @@ void App_Task(void *p_arg)
 	UNUSED(p_arg);
 	OS_ERR p_err;
 
-	// float to string conversion.
-	// char * str = gcvt
-
 	while (1)
 	{
 		snprintf(buffer, 33, g_text, g_user_pb_pressed);
@@ -75,11 +67,7 @@ void App_Task(void *p_arg)
 		LCD_Set_Cursor(1, 1);
 		LCD_Write_String(buffer);
 
-		// LCD_Set_Cursor(2, 1);
-		// LCD_Write_String(buffer);
-		// HAL_Delay(10000);
-
-		OSTimeDlyHMSM(0, 0, 5, 0, OS_OPT_TIME_HMSM_STRICT, &p_err);
+		OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);
 	}
 }
 
@@ -107,6 +95,6 @@ void App_PushButtonTask(void *p_arg)
 			g_user_pb_pressed += 1;
 		}
 
-		OSTimeDlyHMSM(0, 0, 5, 0, OS_OPT_TIME_HMSM_STRICT, &p_err);
+		OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);
 	}
 }
