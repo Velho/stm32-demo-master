@@ -20,8 +20,7 @@ const LCD16x2_CfgType LCD16x2_CfgParam =
 		{ GPIOB, GPIO_PIN_10 },	//! D6_PIN
 		{ GPIOA, GPIO_PIN_8 },	//! D7_PIN
 
-		{ GPIOB, GPIO_PIN_6 },	//! EN_PIN
-		{ GPIOA, GPIO_PIN_7 },	//! RS_PIN
-
+		{ GPIOA, GPIO_PIN_7 },	//! EN_PIN
+		{ GPIOB, GPIO_PIN_6 },	//! RS_PIN
 		20
 };

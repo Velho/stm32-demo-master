@@ -34,6 +34,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 
 #include <stdint.h>
+#include <os.h>
 
 #include "app.h"
 #include "data_storage.h"
@@ -71,8 +72,6 @@ void Error_Handler(void);
 #define GPIO_PB1_GPIO_Port GPIOB
 #define RS485_NRE_Pin GPIO_PIN_13
 #define RS485_NRE_GPIO_Port GPIOB
-#define LCD_RS_Pin GPIO_PIN_7
-#define LCD_RS_GPIO_Port GPIOC
 #define LCD_DB7_Pin GPIO_PIN_8
 #define LCD_DB7_GPIO_Port GPIOA
 #define RS485_DE_Pin GPIO_PIN_3
@@ -81,6 +80,8 @@ void Error_Handler(void);
 #define LCD_DB5_GPIO_Port GPIOB
 #define LCD_DB4_Pin GPIO_PIN_5
 #define LCD_DB4_GPIO_Port GPIOB
+#define LCD_RS_Pin GPIO_PIN_6
+#define LCD_RS_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -15,8 +15,6 @@
 
 #include "DWT_Delay.h"
 
-#include <os.h>
-
 //-----[ Alphanumeric LCD 16x2 Routines ]-----
 
 void LCD_DATA(unsigned char Data)
