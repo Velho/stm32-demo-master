@@ -7,9 +7,11 @@
 
 #include "bme_task.h"
 #include "bme_sensor.h"
+#include "data_storage.h"
+
 
 OS_TCB       BmeSensorTaskTCB;
-CPU_STACK    BmeSensorStk[128u];
+CPU_STK   	 BmeSensorTaskStk[128u];
 
 
 void BmeSensorTask_Init()
@@ -17,11 +19,15 @@ void BmeSensorTask_Init()
     int result = 0;
     result = Bme_Init();
 
+    (void)result; // Log the error or something.
 }
 
 void BmeSensorTask(void *p_arg)
 {
     (void)p_arg;    /* Unused. */
+
+    while (1)
+    {
 
     // Read the Data from the Sensor.
     struct bme280_data sensor_data;
@@ -29,4 +35,5 @@ void BmeSensorTask(void *p_arg)
 
     // Store the Data to RingBuffer.
     DataStorage_AppendBuffer(&sensor_data, SENSOR_TYPE_ALL);
+    }
 }
