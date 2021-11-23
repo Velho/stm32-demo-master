@@ -9,7 +9,6 @@
 #define INC_BME_TASK_H_
 
 #include <os.h>
-//#include <cpu.h>
 
 extern OS_TCB       BmeSensorTaskTCB;
 extern CPU_STK    	BmeSensorTaskStk[128u];
