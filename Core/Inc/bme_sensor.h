@@ -12,7 +12,6 @@
 
 #include <stdint.h>
 
-
 extern struct bme280_dev bme280_device;
 
 /**
@@ -32,18 +31,10 @@ struct bme280_dev* Bme_GetSensor();
 /**
  * @brief
  *
- * @return int
- */
-int Bme_SetSensor();
-
-/**
- * @brief
- *
  * @param comp_data
  * @param data
  * @return int
  */
-int Bme_GetData(uint8_t comp_data, struct bme280_data* data);
-
+int Bme_ReadData(uint8_t comp_data, struct bme280_data* data);
 
 #endif /* INC_BME_SENSOR_H_ */

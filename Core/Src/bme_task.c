@@ -9,10 +9,7 @@
 #include "bme_sensor.h"
 #include "datastorage.h"
 
-OS_TCB BmeSensorTaskTCB;
-CPU_STK BmeSensorTaskStk[128u];
-
-DataStorageList dsSensorList;
+BmeSensorHandleTask bmeSensorHandleTask;
 
 void BmeSensorTask_Init()
 {
@@ -21,7 +18,7 @@ void BmeSensorTask_Init()
 
     (void)result; // Log the error or something.
 
-    DataStorage_Init(&dsSensorList, sizeof(struct bme280_data));
+    DataStorage_Init(&bmeSensorHandleTask.dsSensorList, sizeof(struct bme280_data));
 }
 
 void BmeSensorTask(void* p_arg)
@@ -35,11 +32,10 @@ void BmeSensorTask(void* p_arg)
         struct bme280_data sensor_data;
 
         // Read the Data from the Sensor.
-        Bme_GetData(BME280_ALL, &sensor_data);
+        Bme_ReadData(BME280_ALL, &sensor_data);
 
         // Store the Data to RingBuffer.
-        // DataStorageStatus DataStorage_Append(DataStorageList* list, uint8_t* data);
-        dsStatus = DataStorage_Append(&dsSensorList, (uint8_t*)&sensor_data);
+        dsStatus = DataStorage_Append(&bmeSensorHandleTask.dsSensorList, (uint8_t*)&sensor_data);
         if (dsStatus != DATASTORAGE_OK)
         {
             // Log the error.

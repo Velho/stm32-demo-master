@@ -10,6 +10,7 @@
 
 typedef enum
 {
+    SENSOR_TYPE_NONE,
     SENSOR_TYPE_TEMP = 1,
     SENSOR_TYPE_HUMD = 1 << 1,
     SENSOR_TYPE_PRESS = 1 << 2,

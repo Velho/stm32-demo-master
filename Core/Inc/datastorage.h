@@ -8,6 +8,7 @@
 #ifndef INC_DATA_STORAGE_H_
 #define INC_DATA_STORAGE_H_
 
+#include <stddef.h>
 #include <stdint.h>
 
 #include "SensorType.h"
@@ -35,8 +36,7 @@ typedef struct
 {
     DataStorageType buffer[STORAGE_BUFFER_LENGTH]; //!< Array of the elements.
 
-    size_t size;         //!< Size of the list in bytes.
-    size_t element_size; //!< Size of the element.
+    uint32_t element_size; //!< Size of the element.
 
     DataStorageIndex write; //!< Write index.
     DataStorageIndex read;  //!< Read index.

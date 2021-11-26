@@ -33,11 +33,13 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "cpu_cfg.h"
+
 #include <stdint.h>
 #include <os.h>
 
 #include "app.h"
-#include "data_storage.h"
+#include "datastorage.h"
 
 /* USER CODE END Includes */
 

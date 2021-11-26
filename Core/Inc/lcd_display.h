@@ -8,8 +8,9 @@
 #ifndef INC_LCD_DISPLAY_H_
 #define INC_LCD_DISPLAY_H_
 
-#include <sensor_datatype.h>
 #include <stdint.h>
+
+#include "sensortype.h"
 
 /**
  * @brief
@@ -27,9 +28,8 @@ void Display_Update();
  * @brief
  *
  */
-void Display_SetMode(SensorDataType mode);
+void Display_SetMode(SensorType mode);
 
 uint8_t Display_IsUpdating();
-
 
 #endif /* INC_LCD_DISPLAY_H_ */
