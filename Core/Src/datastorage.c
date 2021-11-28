@@ -46,10 +46,17 @@ DataStorageStatus DataStorage_Pop(DataStorageList* list, uint8_t* data)
     return ret;
 }
 
-void DataStorage_Init(DataStorageList* list, size_t element_size)
+int DataStorage_Init(DataStorageList* list, size_t element_size)
 {
+    if (list == NULL || element_size == 0)
+    {
+        return 1;
+    }
+
     list->write = 0;
     list->read = 0;
 
     list->element_size = element_size;
+
+    return 0;
 }

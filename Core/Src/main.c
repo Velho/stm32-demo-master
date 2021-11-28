@@ -41,8 +41,8 @@
 
 /* USER CODE BEGIN PV */
 
-static OS_TCB StartupTaskTCB;
-static CPU_STK StartupTaskStk[128u];
+static OS_TCB EspStartupTaskTCB;
+static CPU_STK EspStartupTaskStk[128u];
 
 /* USER CODE END PV */
 
@@ -96,8 +96,8 @@ int main(void)
 
     App_OS_SetAllHooks();
 
-    OSTaskCreate(&StartupTaskTCB, "Startup Task", EspStartupTask, 0u, 3u, StartupTaskStk, StartupTaskStk[128u / 10u], 128u,
-                 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+    OSTaskCreate(&EspStartupTaskTCB, "Startup Task", EspStartupTask, 0u, 3u, EspStartupTaskStk,
+                 EspStartupTaskStk[128u / 10u], 128u, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
 
     if (os_err != OS_ERR_NONE)
     {

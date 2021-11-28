@@ -1,22 +1,22 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.h
+ * @brief          : Header for main.c file.
+ *                   This file contains the common defines of the application.
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -34,12 +34,13 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 
 #include "cpu_cfg.h"
+#include "esp_device.h"
 
-#include <stdint.h>
 #include <os.h>
+#include <stdint.h>
 
-#include "app.h"
-#include "datastorage.h"
+// #include "app.h"
+// #include "datastorage.h"
 
 /* USER CODE END Includes */
 
@@ -68,12 +69,12 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define GPIO_BluePushButton1_Pin GPIO_PIN_13
 #define GPIO_BluePushButton1_GPIO_Port GPIOC
-#define GPIO_PushButton1_Pin GPIO_PIN_12
-#define GPIO_PushButton1_GPIO_Port GPIOB
 #define LCD_EN_Pin GPIO_PIN_7
 #define LCD_EN_GPIO_Port GPIOA
 #define LCD_DB6_Pin GPIO_PIN_10
 #define LCD_DB6_GPIO_Port GPIOB
+#define GPIO_PushButton1_Pin GPIO_PIN_12
+#define GPIO_PushButton1_GPIO_Port GPIOB
 #define RS485_NRE_Pin GPIO_PIN_13
 #define RS485_NRE_GPIO_Port GPIOB
 #define LCD_DB7_Pin GPIO_PIN_8

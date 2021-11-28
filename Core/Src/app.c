@@ -5,6 +5,8 @@
  *      Author: Velho
  */
 
+#include "app.h"
+
 #include <os.h>
 #include <stdio.h>
 
@@ -23,11 +25,13 @@
 #define APP_PUSHBUTTON_PIN GPIO_PushButton1_Pin
 #endif
 
-OS_TCB AppPushButtonTCB;
-CPU_STK AppPushButtonStk[128u];
+EspPushButtonHandleTask espPushButtonHandleTask = {
+    .taskHandle = {.fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
+};
 
-OS_TCB AppTaskTCB;
-CPU_STK AppTaskStk[256u];
+EspMainAppHandleTask espMainAppHandleTask = {
+    .taskHandle = {.fnTaskInit = App_Init, .fnTaskHandle = App_Task},
+};
 
 static int g_user_pb_pressed = 0;
 static char g_text[] = "Status: %d";

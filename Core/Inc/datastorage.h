@@ -47,8 +47,9 @@ typedef struct
  *
  * @param list Pointer to the ringbuffer list.
  * @param element_size Size of the data structure stored in the buffer.
+ * @return 0 in case of success, otherwise true.
  */
-void DataStorage_Init(DataStorageList* list, size_t element_size);
+int DataStorage_Init(DataStorageList* list, size_t element_size);
 
 /**
  * @brief Appends to the ring buffer.

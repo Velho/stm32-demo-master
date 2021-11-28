@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2021
  *
  */
-#ifndef __ESP_ENTRY_H__
-#define __ESP_ENTRY_H__
+#ifndef INC_ESP_ENTRY_H
+#define INC_ESP_ENTRY_H
 
 #include "cpu_cfg.h"
 
@@ -21,11 +21,11 @@
 #include <bsp_int.h>
 #include <bsp_os.h>
 
-#include "os_app_hooks.h"
 #include "bme_task.h"
+#include "os_app_hooks.h"
 
 /**
- * @brief
+ * @brief Entry Point for the Kernel Application.
  *
  * @param p_arg
  */

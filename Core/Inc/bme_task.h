@@ -5,26 +5,32 @@
  *      Author: Velho
  */
 
-#ifndef INC_BME_TASK_H_
-#define INC_BME_TASK_H_
+#ifndef INC_BME_TASK_H
+#define INC_BME_TASK_H
+
+#include "datastorage.h"
+#include "esp_device.h"
 
 #include <os.h>
-#include "datastorage.h"
 
 typedef struct
 {
+    // EspTaskInit bmeTaskInit;     //!< Function pointer to initialize the module.
+    // EspTaskHandle bmeTaskHandle; //!< Function pointer to the Task Handle.
+
+    EspTaskHandle taskHandle;
     OS_TCB BmeSensorTaskTCB;        //!< Transmision Control Block for this Task.
     CPU_STK BmeSensorTaskStk[128u]; //!< Stack used for this Task.
 
     DataStorageList dsSensorList; //!< Ringbuffer for the internal data.
-} BmeSensorHandleTask;
+} EspBmeSensorHandleTask;
 
-extern BmeSensorHandleTask bmeSensorHandleTask;
+extern EspBmeSensorHandleTask espBmeSensorHandleTask;
 
 /**
  * @brief Initializes the sensor task.
  */
-void BmeSensorTask_Init();
+int BmeSensorTask_Init();
 
 /**
  * @brief Describes the Sensor process.

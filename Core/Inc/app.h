@@ -8,10 +8,12 @@
 #ifndef INC_APP_H_
 #define INC_APP_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/* #ifdef __cplusplus
+extern "C"
+{
+#endif */
 
+#include "esp_device.h"
 #include "main.h"
 
 /**
@@ -19,12 +21,24 @@ extern "C" {
  *  AppTask was used as testing bench for the poc implementation. Find new ways to utilize the module.
  */
 
-extern OS_TCB       AppPushButtonTCB;
-extern CPU_STK      AppPushButtonStk[128u];
+typedef struct
+{
+    EspTaskHandle taskHandle;
+    OS_TCB appPushButtonTCB;
+    CPU_STK appPushButtonStk[128u];
+} EspPushButtonHandleTask;
 
-extern OS_TCB 		AppTaskTCB;
-extern CPU_STK 		AppTaskStk[256u];
+extern EspPushButtonHandleTask espPushButtonHandleTask;
 
+typedef struct
+{
+    EspTaskHandle taskHandle;
+    OS_TCB appTaskTCB;
+    CPU_STK appTaskStk[256u];
+
+} EspMainAppHandleTask;
+
+extern EspMainAppHandleTask espMainAppHandleTask;
 
 /**
  * @brief
@@ -43,19 +57,17 @@ int App_GetCounter();
  * @brief
  *
  */
-void App_Task(void *p_arg);
-
+void App_Task(void* p_arg);
 
 /**
  * @brief Poll the push button.
  *
  * @param p_arg Unused.
  */
-void App_PushButtonTask(void *p_arg);
+void App_PushButtonTask(void* p_arg);
 
-
-#ifdef __cplusplus
+/* #ifdef __cplusplus
 }
-#endif
+#endif */
 
 #endif /* INC_APP_H_ */
