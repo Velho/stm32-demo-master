@@ -6,25 +6,25 @@
  */
 
 #include "bme_sensor.h"
-#include "i2c.h"
 
 #include <bme280/bme280.h>
-
 #include <stdint.h>
+
+#include "i2c.h"
 
 #define MS_TO_US_DIV 1000
 #define DEVICE_ADDR BME280_I2C_ADDR_PRIM
 
-//static uint32_t request_delay = 0;
-//static uint8_t is_operational = 0;
+// static uint32_t request_delay = 0;
+// static uint8_t is_operational = 0;
 
 static uint8_t dev_addr = BME280_I2C_ADDR_PRIM;
 
 struct bme280_dev bme280_device;
 
 /**
- * @brief FIXME
- * Working with the uC-3 kernel it might be wrong inside the tasks
+ * @brief Delays in milliseconds.
+ * FIXME Working with the uC-3 kernel it might be wrong inside the tasks
  * to just wait for the peripheral..
  * @param period
  * @param intf_ptr
@@ -42,7 +42,7 @@ static void Configure_Device()
     bme280_device.intf_ptr = &dev_addr; // BME280_I2C_ADDR_SEC
     bme280_device.intf = BME280_I2C_INTF;
 }
-// stream_sensor_data_normal_mode
+
 static int8_t Set_Sensor_NormalMode(struct bme280_dev* dev)
 {
     int8_t rslt;
@@ -76,7 +76,7 @@ struct bme280_dev* Bme_Get_Sensor()
     return &bme280_device;
 }
 
-int Bme_ReadData(uint8_t comp_data, struct bme280_data* data)
+int Bme_ReadSensorData(uint8_t comp_data, struct bme280_data* data)
 {
     if (data == NULL)
     {

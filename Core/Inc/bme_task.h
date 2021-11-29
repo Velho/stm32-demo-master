@@ -11,16 +11,17 @@
 #include "datastorage.h"
 #include "esp_device.h"
 
+#include "bme280/bme280_defs.h"
+
 #include <os.h>
+
+#define ESP_BME_STK_SIZE 256u
 
 typedef struct
 {
-    // EspTaskInit bmeTaskInit;     //!< Function pointer to initialize the module.
-    // EspTaskHandle bmeTaskHandle; //!< Function pointer to the Task Handle.
-
-    EspTaskHandle taskHandle;
-    OS_TCB BmeSensorTaskTCB;        //!< Transmision Control Block for this Task.
-    CPU_STK BmeSensorTaskStk[128u]; //!< Stack used for this Task.
+    EspTaskHandle taskHandle;                   //!< Task Handle with the function pointers for Initializer and Tasks.
+    OS_TCB bmeSensorTaskTCB;                    //!< Transmision Control Block for this Task.
+    CPU_STK bmeSensorTaskStk[ESP_BME_STK_SIZE]; //!< Stack used for this Task.
 
     DataStorageList dsSensorList; //!< Ringbuffer for the internal data.
 } EspBmeSensorHandleTask;

@@ -96,13 +96,6 @@ int main(void)
 
     App_OS_SetAllHooks();
 
-    OSTaskCreate(&EspStartupTaskTCB, "Startup Task", EspStartupTask, 0u, 3u, EspStartupTaskStk,
-                 EspStartupTaskStk[128u / 10u], 128u, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
-
-    if (os_err != OS_ERR_NONE)
-    {
-        Error_Handler();
-    }
     /* USER CODE END SysInit */
 
     /* Initialize all configured peripherals */
@@ -110,6 +103,14 @@ int main(void)
     MX_I2C1_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
+
+    OSTaskCreate(&EspStartupTaskTCB, "Esp Boot Task", EspStartupTask, 0u, 3u, EspStartupTaskStk,
+                 EspStartupTaskStk[128u / 10u], 128u, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+
+    if (os_err != OS_ERR_NONE)
+    {
+        Error_Handler();
+    }
 
     OSStart(&os_err);
 
@@ -180,6 +181,13 @@ void Error_Handler(void)
     __disable_irq();
     while (1)
     {
+        // Make some repeatable pattern to indicate error.
+        HAL_GPIO_TogglePin(USER_LED1_GPIO_Port, USER_LED1_Pin);
+        HAL_Delay(1000);
+        HAL_GPIO_TogglePin(USER_LED1_GPIO_Port, USER_LED1_Pin);
+        HAL_Delay(500);
+        HAL_GPIO_TogglePin(USER_LED1_GPIO_Port, USER_LED1_Pin);
+        HAL_Delay(500);
     }
     /* USER CODE END Error_Handler_Debug */
 }

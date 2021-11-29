@@ -10,7 +10,7 @@
 #include <os.h>
 #include <stdio.h>
 
-#include "bme_sensor.h"
+#include "bme_task.h"
 #include "datastorage.h"
 #include "lcd16x2/LCD16x2.h"
 #include "lcd_display.h"
@@ -33,10 +33,18 @@ EspMainAppHandleTask espMainAppHandleTask = {
     .taskHandle = {.fnTaskInit = App_Init, .fnTaskHandle = App_Task},
 };
 
-static int g_user_pb_pressed = 0;
+static SensorType g_UserMode = SENSOR_TYPE_TEMP;
+static uint8_t g_PushButtonCounter = 0;
+
 static char g_text[] = "Status: %d";
 
 static char buffer[33];
+
+static uint8_t g_LutSensors[] = {
+    BME280_PRESS,
+    BME280_TEMP,
+    BME280_HUM,
+};
 
 int App_Init()
 {
@@ -52,19 +60,31 @@ void App_Task(void* p_arg)
 
     while (1)
     {
-        snprintf(buffer, 33, g_text, g_user_pb_pressed);
+        DataStorageStatus status;
+        struct bme280_data bmeData = {0};
 
-        LCD_Clear();
-        LCD_Set_Cursor(1, 1);
-        LCD_Write_String(buffer);
+        status = DataStorage_Pop(&espBmeSensorHandleTask.dsSensorList, (uint8_t*)&bmeData);
+
+        if (status != DATASTORAGE_OK)
+        {
+            snprintf(buffer, 33, "Error: %d", status);
+        }
+        else
+        {
+            Display_SetMode(g_UserMode, *((double*)((struct bme280_data*)&bmeData) + g_UserMode));
+            Display_Update();
+        }
 
         OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);
+
+        // LCD_Set_Cursor(1, 1);
+        // LCD_Write_String(buffer);
     }
 }
 
-int App_GetCounter()
+uint8_t App_GetUserMode()
 {
-    return g_user_pb_pressed;
+    return g_LutSensors[g_UserMode];
 }
 
 void App_PushButtonTask(void* p_arg)
@@ -77,12 +97,14 @@ void App_PushButtonTask(void* p_arg)
     {
         if (HAL_GPIO_ReadPin(APP_PUSHBUTTON_GPIO, APP_PUSHBUTTON_PIN) == GPIO_PIN_RESET)
         {
-            if (g_user_pb_pressed >= 10)
-            {
-                g_user_pb_pressed = 0;
-            }
+            g_UserMode += 1;
 
-            g_user_pb_pressed += 1;
+            if (g_UserMode >= SENSOR_TYPE_ALL)
+            {
+                // g_PushButtonCounter = 1;
+                g_UserMode = 0;
+            }
+            // g_PushButtonCounter += 1;
         }
 
         OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);

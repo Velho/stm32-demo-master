@@ -16,6 +16,9 @@ extern "C"
 #include "esp_device.h"
 #include "main.h"
 
+#define ESP_APP_STK_SIZE 256u
+#define ESP_APP_PB_STK_SIZE 256u
+
 /**
  * TODO
  *  AppTask was used as testing bench for the poc implementation. Find new ways to utilize the module.
@@ -25,7 +28,7 @@ typedef struct
 {
     EspTaskHandle taskHandle;
     OS_TCB appPushButtonTCB;
-    CPU_STK appPushButtonStk[128u];
+    CPU_STK appPushButtonStk[ESP_APP_PB_STK_SIZE];
 } EspPushButtonHandleTask;
 
 extern EspPushButtonHandleTask espPushButtonHandleTask;
@@ -34,7 +37,7 @@ typedef struct
 {
     EspTaskHandle taskHandle;
     OS_TCB appTaskTCB;
-    CPU_STK appTaskStk[256u];
+    CPU_STK appTaskStk[ESP_APP_STK_SIZE];
 
 } EspMainAppHandleTask;
 
@@ -51,7 +54,7 @@ int App_Init();
  *
  * @return int
  */
-int App_GetCounter();
+uint8_t App_GetUserMode();
 
 /**
  * @brief

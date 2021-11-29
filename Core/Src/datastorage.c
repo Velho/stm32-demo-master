@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <string.h>
 
-#define STORAGE_BUFFER_MASK STORAGE_BUFFER_LENGTH - 1
+#define STORAGE_BUFFER_MASK (STORAGE_BUFFER_LENGTH - 1)
 
 DataStorageStatus DataStorage_Append(DataStorageList* list, uint8_t* data)
 {

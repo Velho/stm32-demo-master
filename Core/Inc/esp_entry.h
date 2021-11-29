@@ -25,6 +25,13 @@
 #include "os_app_hooks.h"
 
 /**
+ * @brief Calls the initializers for different submodules.
+ *
+ * @return int
+ */
+int EspStartup();
+
+/**
  * @brief Entry Point for the Kernel Application.
  *
  * @param p_arg

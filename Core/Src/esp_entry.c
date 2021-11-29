@@ -20,49 +20,63 @@
 #include "app.h"
 #include "esp_device.h"
 
-static EspTaskHandle* espTaskHandles[] = {
-    &espPushButtonHandleTask.taskHandle,
-    &espMainAppHandleTask.taskHandle,
+static EspTaskHandle* espTaskHandles[]
+    = {&espPushButtonHandleTask.taskHandle, &espMainAppHandleTask.taskHandle, &espBmeSensorHandleTask.taskHandle, NULL};
 
-    NULL,
-};
-
-void EspStartup()
+int EspStartup()
 {
     // BmeSensorTask_Init();
     int result = 0;
-    EspTaskHandle* taskHandle = *espTaskHandles;
+    EspTaskHandle** taskHandle = espTaskHandles;
 
-    while (taskHandle++ != NULL)
+    while (taskHandle++)
     {
-        result |= taskHandle->fnTaskInit();
+        if (*taskHandle == NULL)
+        {
+            break;
+        }
+
+        if ((*taskHandle)->fnTaskInit == NULL)
+        {
+            continue;
+        }
+
+        // Call the Handle Initializer.
+        result = (*taskHandle)->fnTaskInit();
+
+        if (result)
+        {
+            // Do something about the error.
+        }
     }
 
-    if (result)
-    {
-        // Initializes error.
-    }
+    return result;
 }
 
 void EspStartupTask(void* p_arg)
 {
     OS_ERR os_err;
+    int result = 0;
 
-    (void)p_arg; // Unused.
+    UNUSED(p_arg); // Unused.
 
     BSP_OS_TickEnable();
-
     OSStatTaskCPUUsageInit(&os_err);
 
-    /*
-    OSTaskCreate(&BmeSensorTaskTCB, "BME Sensor Task", BmeSensorTask, 0u, 5u, // Prio #5
-            BmeSensorTaskStk, 0u, 128u, 0u, 0u, 0u,
-            (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR ), &os_err);
-     */
+    result = EspStartup();
+
+    if (result)
+    {
+        Error_Handler();
+    }
+
+    OSTaskCreate(&espBmeSensorHandleTask.bmeSensorTaskTCB, "BME Sensor Task",
+                 espBmeSensorHandleTask.taskHandle.fnTaskHandle, 0u, 5u, espBmeSensorHandleTask.bmeSensorTaskStk, 0u,
+                 ESP_BME_STK_SIZE, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
 
     OSTaskCreate(&espPushButtonHandleTask.appPushButtonTCB, "App Push Button Task",
                  espPushButtonHandleTask.taskHandle.fnTaskHandle, 0u, 6u, espPushButtonHandleTask.appPushButtonStk, 0u,
-                 128u, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+                 ESP_APP_PB_STK_SIZE, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
 
     if (os_err != OS_ERR_NONE)
     {
@@ -70,8 +84,8 @@ void EspStartupTask(void* p_arg)
     }
 
     OSTaskCreate(&espMainAppHandleTask.appTaskTCB, "App Task", espMainAppHandleTask.taskHandle.fnTaskHandle, 0u, 5u,
-                 espMainAppHandleTask.appTaskStk, 0u, 256u, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
-                 &os_err);
+                 espMainAppHandleTask.appTaskStk, 0u, ESP_APP_STK_SIZE, 0u, 0u, 0u,
+                 (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
 
     if (os_err != OS_ERR_NONE)
     {

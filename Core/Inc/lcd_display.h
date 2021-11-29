@@ -12,11 +12,13 @@
 
 #include "sensortype.h"
 
+typedef struct DisplayInfo TypeDisplayInfo;
+
 /**
  * @brief
  *
  */
-void Display_Init();
+int Display_Init();
 
 /**
  * @brief
@@ -27,8 +29,16 @@ void Display_Update();
 /**
  * @brief
  *
+ * @param datatype
+ * @return TypeDisplayInfo*
  */
-void Display_SetMode(SensorType mode);
+TypeDisplayInfo* Get_DisplayInfo(SensorType datatype);
+
+/**
+ * @brief
+ *
+ */
+void Display_SetMode(SensorType mode, double data);
 
 uint8_t Display_IsUpdating();
 

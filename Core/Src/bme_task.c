@@ -9,6 +9,8 @@
 #include "bme_sensor.h"
 #include "datastorage.h"
 
+#include "app.h"
+
 EspBmeSensorHandleTask espBmeSensorHandleTask = {
     .taskHandle = {.fnTaskInit = BmeSensorTask_Init, .fnTaskHandle = BmeSensorTask},
 };
@@ -17,8 +19,6 @@ int BmeSensorTask_Init()
 {
     int result = 0;
     result = Bme_Init();
-
-    (void)result; // Log the error or something.
 
     DataStorage_Init(&espBmeSensorHandleTask.dsSensorList, sizeof(struct bme280_data));
 
@@ -36,7 +36,7 @@ void BmeSensorTask(void* p_arg)
         struct bme280_data sensor_data;
 
         // Read the Data from the Sensor.
-        BmeReadSensorData(BME280_ALL, &sensor_data);
+        Bme_ReadSensorData(App_GetUserMode(), &sensor_data);
 
         // Store the Data to RingBuffer.
         dsStatus = DataStorage_Append(&espBmeSensorHandleTask.dsSensorList, (uint8_t*)&sensor_data);

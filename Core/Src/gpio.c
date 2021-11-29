@@ -44,7 +44,7 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LCD_EN_Pin|LCD_DB7_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, USER_LED1_Pin | LCD_EN_Pin | LCD_DB7_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LCD_DB6_Pin|RS485_NRE_Pin|RS485_DE_Pin|LCD_DB5_Pin
@@ -56,8 +56,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIO_BluePushButton1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PAPin PAPin */
-  GPIO_InitStruct.Pin = LCD_EN_Pin|LCD_DB7_Pin;
+  /*Configure GPIO pins : PAPin PAPin PAPin */
+  GPIO_InitStruct.Pin = USER_LED1_Pin | LCD_EN_Pin | LCD_DB7_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
