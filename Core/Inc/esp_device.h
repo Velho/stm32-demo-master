@@ -18,6 +18,7 @@ typedef void (*FnEspTaskHandle)(void* p_arg);
 
 typedef struct
 {
+    const char* handleName;
     FnEspTaskInit fnTaskInit;
     FnEspTaskHandle fnTaskHandle;
 } EspTaskHandle;

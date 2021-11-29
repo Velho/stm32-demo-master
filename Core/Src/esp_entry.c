@@ -20,8 +20,12 @@
 #include "app.h"
 #include "esp_device.h"
 
-static EspTaskHandle* espTaskHandles[]
-    = {&espPushButtonHandleTask.taskHandle, &espMainAppHandleTask.taskHandle, &espBmeSensorHandleTask.taskHandle, NULL};
+static EspTaskHandle* espTaskHandles[] = {
+    &espPushButtonHandleTask.taskHandle,
+    &espMainAppHandleTask.taskHandle,
+    &espBmeSensorHandleTask.taskHandle,
+    NULL,
+};
 
 int EspStartup()
 {
@@ -47,6 +51,7 @@ int EspStartup()
         if (result)
         {
             // Do something about the error.
+            // (*taskHandle)->handleName;
         }
     }
 
@@ -71,8 +76,13 @@ void EspStartupTask(void* p_arg)
     }
 
     OSTaskCreate(&espBmeSensorHandleTask.bmeSensorTaskTCB, "BME Sensor Task",
-                 espBmeSensorHandleTask.taskHandle.fnTaskHandle, 0u, 5u, espBmeSensorHandleTask.bmeSensorTaskStk, 0u,
+                 espBmeSensorHandleTask.taskHandle.fnTaskHandle, 0u, 7u, espBmeSensorHandleTask.bmeSensorTaskStk, 0u,
                  ESP_BME_STK_SIZE, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+
+    if (os_err != OS_ERR_NONE)
+    {
+        Error_Handler();
+    }
 
     OSTaskCreate(&espPushButtonHandleTask.appPushButtonTCB, "App Push Button Task",
                  espPushButtonHandleTask.taskHandle.fnTaskHandle, 0u, 6u, espPushButtonHandleTask.appPushButtonStk, 0u,

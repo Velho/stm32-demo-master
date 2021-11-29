@@ -23,6 +23,14 @@ DataStorageStatus DataStorage_Append(DataStorageList* list, uint8_t* data)
     }
 
     size_t offset = list->write * list->element_size;
+
+    if ((offset + list->element_size) >= STORAGE_BUFFER_MASK)
+    {
+        list->write = 0;
+        offset = list->write * list->element_size;
+        ret = DATASTORAGE_OVERFLOW;
+    }
+
     memcpy(&list->buffer[offset], data, list->element_size);
     list->write = (list->write + 1) & STORAGE_BUFFER_MASK;
 
@@ -40,6 +48,14 @@ DataStorageStatus DataStorage_Pop(DataStorageList* list, uint8_t* data)
     }
 
     size_t offset = list->read * list->element_size;
+
+    if ((offset + list->element_size) >= STORAGE_BUFFER_MASK)
+    {
+        list->read = 0;
+        offset = list->read * list->element_size;
+        ret = DATASTORAGE_OVERFLOW;
+    }
+
     memcpy(data, &list->buffer[offset], list->element_size);
     list->read = (list->read + 1) & STORAGE_BUFFER_MASK;
 

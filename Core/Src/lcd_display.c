@@ -76,9 +76,8 @@ void Display_Update()
         LCD_Set_Cursor(2, 1);
 
         memset(buffer, 0, 16); // Set the buffer back to 0.
-
-        size_t formatLen = strlen(cursor);
-        snprintf(buffer, formatLen, (const char*)(cursor + 1), g_data);
+        // Cursor + 1, as the pointer points to the newline which we want to skip.
+        snprintf(buffer, 16, (const char*)(cursor + 1), g_data);
 
         LCD_Write_String(buffer);
     }

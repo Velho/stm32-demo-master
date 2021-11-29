@@ -26,11 +26,11 @@
 #endif
 
 EspPushButtonHandleTask espPushButtonHandleTask = {
-    .taskHandle = {.fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
+    .taskHandle = {.handleName = "Push Button Task".fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
 };
 
 EspMainAppHandleTask espMainAppHandleTask = {
-    .taskHandle = {.fnTaskInit = App_Init, .fnTaskHandle = App_Task},
+    .taskHandle = {.handleName = "Main App Task".fnTaskInit = App_Init, .fnTaskHandle = App_Task},
 };
 
 static SensorType g_UserMode = SENSOR_TYPE_TEMP;
@@ -38,7 +38,7 @@ static uint8_t g_PushButtonCounter = 0;
 
 static char g_text[] = "Status: %d";
 
-static char buffer[33];
+static char buffer[16];
 
 static uint8_t g_LutSensors[] = {
     BME280_PRESS,
@@ -67,7 +67,7 @@ void App_Task(void* p_arg)
 
         if (status != DATASTORAGE_OK)
         {
-            snprintf(buffer, 33, "Error: %d", status);
+            snprintf(buffer, 16, "Error: %d", status);
         }
         else
         {
@@ -76,9 +76,6 @@ void App_Task(void* p_arg)
         }
 
         OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);
-
-        // LCD_Set_Cursor(1, 1);
-        // LCD_Write_String(buffer);
     }
 }
 

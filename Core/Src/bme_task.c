@@ -12,7 +12,7 @@
 #include "app.h"
 
 EspBmeSensorHandleTask espBmeSensorHandleTask = {
-    .taskHandle = {.fnTaskInit = BmeSensorTask_Init, .fnTaskHandle = BmeSensorTask},
+    .taskHandle = {.handleName = "BME Task Handle", .fnTaskInit = BmeSensorTask_Init, .fnTaskHandle = BmeSensorTask},
 };
 
 int BmeSensorTask_Init()
