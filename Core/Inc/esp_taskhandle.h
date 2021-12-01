@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2021
  *
  */
-#ifndef INC_ESP_DEVICE_H
-#define INC_ESP_DEVICE_H
+#ifndef INC_ESP_TASKHANDLE_H
+#define INC_ESP_TASKHANDLE_H
 
 // TODO : Add some preprocessing logic to disable functionality in slave devices.
 

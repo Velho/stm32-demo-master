@@ -16,9 +16,9 @@
 
 #include <bsp_os.h>
 #include <cpu_cfg.h>
+#include <esp_taskhandle.h>
 
 #include "app.h"
-#include "esp_device.h"
 
 static EspTaskHandle* espTaskHandles[] = {
     &espPushButtonHandleTask.taskHandle,

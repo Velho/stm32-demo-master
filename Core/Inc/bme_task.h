@@ -8,9 +8,8 @@
 #ifndef INC_BME_TASK_H
 #define INC_BME_TASK_H
 
+#include <esp_taskhandle.h>
 #include "datastorage.h"
-#include "esp_device.h"
-
 #include "bme280/bme280_defs.h"
 
 #include <os.h>

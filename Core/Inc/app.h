@@ -13,7 +13,7 @@ extern "C"
 {
 #endif */
 
-#include "esp_device.h"
+#include <esp_taskhandle.h>
 #include "main.h"
 
 #define ESP_APP_STK_SIZE 256u
