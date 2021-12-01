@@ -26,11 +26,11 @@
 #endif
 
 EspPushButtonHandleTask espPushButtonHandleTask = {
-    .taskHandle = {.handleName = "Push Button Task".fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
+    .taskHandle = {.handleName = "Push Button Task", .fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
 };
 
 EspMainAppHandleTask espMainAppHandleTask = {
-    .taskHandle = {.handleName = "Main App Task".fnTaskInit = App_Init, .fnTaskHandle = App_Task},
+    .taskHandle = {.handleName = "Main App Task", .fnTaskInit = App_Init, .fnTaskHandle = App_Task},
 };
 
 static SensorType g_UserMode = SENSOR_TYPE_TEMP;

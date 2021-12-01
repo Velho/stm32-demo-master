@@ -12,18 +12,19 @@
 #include "esp_entry.h"
 #include "main.h"
 
+#include "app.h"
 #include "bme_task.h"
+#include "esp_taskhandle.h"
+#include "extcom_task.h"
 
 #include <bsp_os.h>
 #include <cpu_cfg.h>
-#include <esp_taskhandle.h>
-
-#include "app.h"
 
 static EspTaskHandle* espTaskHandles[] = {
     &espPushButtonHandleTask.taskHandle,
     &espMainAppHandleTask.taskHandle,
     &espBmeSensorHandleTask.taskHandle,
+    &espExtComHandleTask.taskHandle,
     NULL,
 };
 
@@ -101,4 +102,8 @@ void EspStartupTask(void* p_arg)
     {
         Error_Handler();
     }
+
+    OSTaskCreate(&espExtComHandleTask.extcomTaskTCB, "External Serial Com", espExtComHandleTask.taskHandle.fnTaskHandle,
+                 0u, 8u, espExtComHandleTask.extcomTaskStk, 0u, EXTCOM_TASK_STK_SIZE, 0u, 0u, 0u,
+                 (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
 }
