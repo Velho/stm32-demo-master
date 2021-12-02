@@ -1,21 +1,13 @@
-/*
- * app.c
- *
- *  Created on: Oct 26, 2021
- *      Author: Velho
- */
-
-#include "app.h"
-
+#include <app_task.h>
 #include <os.h>
 #include <stdio.h>
 
+#include <bme280/bme280_defs.h>
+
 #include "bme_task.h"
 #include "datastorage.h"
-#include "lcd16x2/LCD16x2.h"
 #include "lcd_display.h"
 #include "main.h"
-#include "sensortype.h"
 
 #ifndef SEL_HW_PUSHBUTTON
 #define APP_PUSHBUTTON_GPIO GPIO_BluePushButton1_GPIO_Port
@@ -26,17 +18,15 @@
 #endif
 
 EspPushButtonHandleTask espPushButtonHandleTask = {
-    .taskHandle = {.handleName = "Push Button Task".fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
+    .taskHandle = {.handleName = "Push Button Task", .fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
 };
 
 EspMainAppHandleTask espMainAppHandleTask = {
-    .taskHandle = {.handleName = "Main App Task".fnTaskInit = App_Init, .fnTaskHandle = App_Task},
+    .taskHandle = {.handleName = "Main App Task", .fnTaskInit = App_Init, .fnTaskHandle = App_Task},
 };
 
+// TODO Add mutex to this.
 static SensorType g_UserMode = SENSOR_TYPE_TEMP;
-static uint8_t g_PushButtonCounter = 0;
-
-static char g_text[] = "Status: %d";
 
 static char buffer[16];
 
@@ -63,7 +53,10 @@ void App_Task(void* p_arg)
         DataStorageStatus status;
         struct bme280_data bmeData = {0};
 
-        status = DataStorage_Pop(&espBmeSensorHandleTask.dsSensorList, (uint8_t*)&bmeData);
+        status = DataStorage_Pop(
+            /* &espBmeSensorHandleTask.dsSensorList */
+        		NULL
+            , (uint8_t*)&bmeData);
 
         if (status != DATASTORAGE_OK)
         {
@@ -71,6 +64,11 @@ void App_Task(void* p_arg)
         }
         else
         {
+            if (g_UserMode >= SENSOR_TYPE_ALL)
+            {
+                // Error something error.
+            }
+
             Display_SetMode(g_UserMode, *((double*)((struct bme280_data*)&bmeData) + g_UserMode));
             Display_Update();
         }

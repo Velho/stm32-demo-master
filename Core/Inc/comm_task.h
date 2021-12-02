@@ -11,8 +11,8 @@
 #ifndef INC_COMM_TASK_H
 #define INC_COMM_TASK_H
 
+#include "esp_taskhandle.h"
 #include "datastorage.h"
-#include "esp_device.h"
 
 #include <os.h>
 
@@ -25,7 +25,7 @@ typedef struct
     OS_TCB commRxTaskTCB;
     CPU_STK commRxTaskStk[ESP_COMM_RX_STK_SIZE];
 
-    DatStorageList dsCommList;
+    DataStorageList dsCommList;
 } EspCommRxTaskHandle;
 
 extern EspCommRxTaskHandle espCommRxTaskHandle;
@@ -37,10 +37,10 @@ typedef struct
     OS_TCB commTxTaskTCB;
     CPU_STK commTxTaskStk[ESP_COMM_TX_STK_SIZE];
 
-    DatStorageList dsCommList;
+    DataStorageList dsCommList;
 } EspCommTxTaskHandle;
 
-extern EspCommTxTaskHandle espCommRxTaskHandle;
+extern EspCommTxTaskHandle espCommTxTaskHandle;
 
 /**
  * @brief

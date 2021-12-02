@@ -5,11 +5,13 @@
  *      Author: Velho
  */
 
+#ifdef ESP_SLAVE
 #ifndef INC_BME_TASK_H
 #define INC_BME_TASK_H
 
+
 #include "datastorage.h"
-#include "esp_device.h"
+#include "esp_taskhandle.h"
 
 #include "bme280/bme280_defs.h"
 
@@ -38,5 +40,7 @@ int BmeSensorTask_Init();
  * This is also a kernel task.
  */
 void BmeSensorTask(void* p_arg);
+
+#endif /* ESP_SLAVE */
 
 #endif /* INC_BME_TASK_H_ */

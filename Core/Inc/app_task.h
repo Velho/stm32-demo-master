@@ -5,15 +5,15 @@
  *      Author: Velho
  */
 
-#ifndef INC_APP_H_
-#define INC_APP_H_
+#ifndef INC_APP_TASK_H_
+#define INC_APP_TASK_H_
 
 /* #ifdef __cplusplus
 extern "C"
 {
 #endif */
 
-#include "esp_device.h"
+#include "esp_taskhandle.h"
 #include "main.h"
 
 #define ESP_APP_STK_SIZE 256u
@@ -26,7 +26,7 @@ extern "C"
 
 typedef struct
 {
-    EspTaskHandle taskHandle;
+	EspTaskHandle taskHandle;
     OS_TCB appPushButtonTCB;
     CPU_STK appPushButtonStk[ESP_APP_PB_STK_SIZE];
 } EspPushButtonHandleTask;
@@ -73,4 +73,4 @@ void App_PushButtonTask(void* p_arg);
 }
 #endif */
 
-#endif /* INC_APP_H_ */
+#endif /* INC_APP_TASK_H_ */

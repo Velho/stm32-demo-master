@@ -35,6 +35,7 @@ extern "C" {
 
 #include "cpu_cfg.h"
 #include "esp_device.h"
+#include "sensortype.h"
 
 #include <os.h>
 #include <stdint.h>
@@ -98,5 +99,3 @@ void Error_Handler(void);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

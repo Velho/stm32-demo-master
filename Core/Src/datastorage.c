@@ -1,10 +1,3 @@
-/*
- * data_storage.c
- *
- *  Created on: Oct 26, 2021
- *      Author: Velho
- */
-
 #include "datastorage.h"
 
 #include <assert.h>

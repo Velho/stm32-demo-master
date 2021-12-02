@@ -5,11 +5,13 @@
  *      Author: Velho
  */
 
+#ifdef ESP_SLAVE
+
+#include <app_task.h>
 #include "bme_task.h"
 #include "bme_sensor.h"
 #include "datastorage.h"
 
-#include "app.h"
 
 EspBmeSensorHandleTask espBmeSensorHandleTask = {
     .taskHandle = {.handleName = "BME Task Handle", .fnTaskInit = BmeSensorTask_Init, .fnTaskHandle = BmeSensorTask},
@@ -49,3 +51,6 @@ void BmeSensorTask(void* p_arg)
         OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);
     }
 }
+
+#endif
+

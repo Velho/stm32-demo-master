@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2021
  *
  */
-#ifndef INC_ESP_DEVICE_H
-#define INC_ESP_DEVICE_H
+#ifndef INC_ESP_TASKHANDLE_H_
+#define INC_ESP_TASKHANDLE_H_
 
 typedef int (*FnEspTaskInit)();
 typedef void (*FnEspTaskHandle)(void* p_arg);

@@ -15,11 +15,8 @@
 #define MS_TO_US_DIV 1000
 #define DEVICE_ADDR BME280_I2C_ADDR_PRIM
 
-// static uint32_t request_delay = 0;
-// static uint8_t is_operational = 0;
 
 static uint8_t dev_addr = BME280_I2C_ADDR_PRIM;
-
 struct bme280_dev bme280_device;
 
 /**

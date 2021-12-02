@@ -9,21 +9,26 @@
  *
  */
 
+#include <app_task.h>
 #include "esp_entry.h"
 #include "main.h"
 
+#ifdef ESP_SLAVE
 #include "bme_task.h"
+#endif
 
 #include <bsp_os.h>
 #include <cpu_cfg.h>
 
-#include "app.h"
 #include "esp_device.h"
 
 static EspTaskHandle* espTaskHandles[] = {
     &espPushButtonHandleTask.taskHandle,
     &espMainAppHandleTask.taskHandle,
+#ifdef ESP_SLAVE
     &espBmeSensorHandleTask.taskHandle,
+#endif
+
     NULL,
 };
 
@@ -75,6 +80,8 @@ void EspStartupTask(void* p_arg)
         Error_Handler();
     }
 
+#ifdef ESP_SLAVE
+
     OSTaskCreate(&espBmeSensorHandleTask.bmeSensorTaskTCB, "BME Sensor Task",
                  espBmeSensorHandleTask.taskHandle.fnTaskHandle, 0u, 7u, espBmeSensorHandleTask.bmeSensorTaskStk, 0u,
                  ESP_BME_STK_SIZE, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
@@ -83,6 +90,8 @@ void EspStartupTask(void* p_arg)
     {
         Error_Handler();
     }
+
+#endif
 
     OSTaskCreate(&espPushButtonHandleTask.appPushButtonTCB, "App Push Button Task",
                  espPushButtonHandleTask.taskHandle.fnTaskHandle, 0u, 6u, espPushButtonHandleTask.appPushButtonStk, 0u,
