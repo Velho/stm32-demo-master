@@ -11,8 +11,6 @@
 #ifndef INC_ESP_DEVICE_H
 #define INC_ESP_DEVICE_H
 
-// TODO : Add some preprocessing logic to disable functionality in slave devices.
-
 typedef int (*FnEspTaskInit)();
 typedef void (*FnEspTaskHandle)(void* p_arg);
 
