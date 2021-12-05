@@ -54,3 +54,5 @@ dkms.conf
 
 .settings/
 .vscode/
+/ESP_Slave_Debug/
+/ESP_Master_Debug/

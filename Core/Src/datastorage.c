@@ -69,3 +69,10 @@ int DataStorage_Init(DataStorageList* list, size_t element_size)
 
     return 0;
 }
+
+int DataStorage_IsEmpty(DataStorageType* list)
+{
+    assert(list != NULL);
+
+    return list->write == list->read;
+}

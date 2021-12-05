@@ -22,7 +22,9 @@
 
 /* USER CODE BEGIN 0 */
 
+#ifdef ESP_SLAVE
 #include "bme_sensor.h"
+#endif
 
 /* USER CODE END 0 */
 
@@ -114,6 +116,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
 }
 
 /* USER CODE BEGIN 1 */
+#ifdef ESP_SLAVE
 
 int8_t Bme_I2C_Read(uint8_t reg_addr, uint8_t *reg_data,
 		uint32_t len, void *intf_ptr)
@@ -147,6 +150,6 @@ int8_t Bme_I2C_Write(uint8_t reg_addr, const uint8_t *reg_data,
 	}
 }
 
-
+#endif /* ESP_SLAVE */
 
 /* USER CODE END 1 */

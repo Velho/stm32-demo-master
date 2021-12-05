@@ -21,8 +21,7 @@ struct bme280_dev bme280_device;
 
 /**
  * @brief Delays in milliseconds.
- * FIXME Working with the uC-3 kernel it might be wrong inside the tasks
- * to just wait for the peripheral..
+ *
  * @param period
  * @param intf_ptr
  */

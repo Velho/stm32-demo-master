@@ -13,6 +13,8 @@
 #include "esp_entry.h"
 #include "main.h"
 
+#include "comm_task.h"
+
 #ifdef ESP_SLAVE
 #include "bme_task.h"
 #endif
@@ -20,12 +22,11 @@
 #include <bsp_os.h>
 #include <cpu_cfg.h>
 
-#include "esp_device.h"
-
 static EspTaskHandle* espTaskHandles[] = {
+#ifndef ESP_SLAVE
     &espPushButtonHandleTask.taskHandle,
     &espMainAppHandleTask.taskHandle,
-#ifdef ESP_SLAVE
+#else
     &espBmeSensorHandleTask.taskHandle,
 #endif
 
@@ -65,10 +66,9 @@ int EspStartup()
 
 void EspStartupTask(void* p_arg)
 {
+    UNUSED(p_arg); // Unused.
     OS_ERR os_err;
     int result = 0;
-
-    UNUSED(p_arg); // Unused.
 
     BSP_OS_TickEnable();
     OSStatTaskCPUUsageInit(&os_err);
@@ -82,8 +82,11 @@ void EspStartupTask(void* p_arg)
 
 #ifdef ESP_SLAVE
 
-    OSTaskCreate(&espBmeSensorHandleTask.bmeSensorTaskTCB, "BME Sensor Task",
-                 espBmeSensorHandleTask.taskHandle.fnTaskHandle, 0u, 7u, espBmeSensorHandleTask.bmeSensorTaskStk, 0u,
+    OSTaskCreate(
+    		&espBmeSensorHandleTask.bmeSensorTaskTCB,
+    		"BME Sensor Task",
+			espBmeSensorHandleTask.taskHandle.fnTaskHandle,
+			0u, 7u, espBmeSensorHandleTask.bmeSensorTaskStk, 0u,
                  ESP_BME_STK_SIZE, 0u, 0u, 0u, (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
 
     if (os_err != OS_ERR_NONE)
@@ -91,7 +94,33 @@ void EspStartupTask(void* p_arg)
         Error_Handler();
     }
 
-#endif
+//    OSTaskCreate(
+//    		&espCommRxTaskHandle.commRxTaskTCB,
+//			"Slave RX Task",
+//    		espCommRxTaskHandle.taskHandle.fnTaskHandle,
+//			0u, 5u, espCommRxTaskHandle.commRxTaskStk,
+//			0u, ESP_COMM_RX_STK_SIZE, 0u, 0u, 0u,
+//			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+//
+//    if (os_err != OS_ERR_NONE)
+//    {
+//    	Error_Handler();
+//    }
+
+    OSTaskCreate(
+    		&espCommTxTaskHandle.commTxTaskTCB,
+			"Slave TX Task",
+    		espCommTxTaskHandle.taskHandle.fnTaskHandle,
+			0u, 5u, espCommTxTaskHandle.commTxTaskStk,
+			0u, ESP_COMM_RX_STK_SIZE, 0u, 0u, 0u,
+			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+
+    if (os_err != OS_ERR_NONE)
+    {
+    	Error_Handler();
+    }
+
+#else
 
     OSTaskCreate(&espPushButtonHandleTask.appPushButtonTCB, "App Push Button Task",
                  espPushButtonHandleTask.taskHandle.fnTaskHandle, 0u, 6u, espPushButtonHandleTask.appPushButtonStk, 0u,
@@ -110,4 +139,34 @@ void EspStartupTask(void* p_arg)
     {
         Error_Handler();
     }
+
+    OSTaskCreate(
+    		&espCommRxTaskHandle.commRxTaskTCB,
+			"Master RX Task",
+    		espCommRxTaskHandle.taskHandle.fnTaskHandle,
+			0u, 4u, espCommRxTaskHandle.commRxTaskStk,
+			0u, ESP_COMM_RX_STK_SIZE, 0u, 0u, 0u,
+			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+
+    if (os_err != OS_ERR_NONE)
+    {
+    	Error_Handler();
+    }
+
+//    OSTaskCreate(
+//    		&espCommTxTaskHandle.commTxTaskTCB,
+//			"Master TX Task",
+//    		espCommTxTaskHandle.taskHandle.fnTaskHandle,
+//			0u, 3u, espCommTxTaskHandle.commTxTaskStk,
+//			0u, ESP_COMM_RX_STK_SIZE, 0u, 0u, 0u,
+//			(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), &os_err);
+//
+//    if (os_err != OS_ERR_NONE)
+//    {
+//    	Error_Handler();
+//    }
+
+
+#endif
+
 }

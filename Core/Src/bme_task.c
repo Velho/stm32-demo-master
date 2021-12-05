@@ -38,7 +38,7 @@ void BmeSensorTask(void* p_arg)
         struct bme280_data sensor_data;
 
         // Read the Data from the Sensor.
-        Bme_ReadSensorData(App_GetUserMode(), &sensor_data);
+        Bme_ReadSensorData(SENSOR_TYPE_ALL, &sensor_data);
 
         // Store the Data to RingBuffer.
         dsStatus = DataStorage_Append(&espBmeSensorHandleTask.dsSensorList, (uint8_t*)&sensor_data);

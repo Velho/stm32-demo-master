@@ -1,10 +1,4 @@
-/*
- * bme.h
- *
- *  Created on: Oct 26, 2021
- *      Author: Velho
- */
-
+#ifdef ESP_SLAVE
 #ifndef INC_BME_SENSOR_H_
 #define INC_BME_SENSOR_H_
 
@@ -38,3 +32,4 @@ struct bme280_dev* Bme_GetSensor();
 int Bme_ReadSensorData(uint8_t comp_data, struct bme280_data* data);
 
 #endif /* INC_BME_SENSOR_H_ */
+#endif /* ESP_SLAVE */

@@ -10,6 +10,7 @@
 
 typedef enum
 {
+	SENSOR_TYPE_ERROR = -1,
     SENSOR_TYPE_PRESS,
     SENSOR_TYPE_TEMP,
     SENSOR_TYPE_HUMD,

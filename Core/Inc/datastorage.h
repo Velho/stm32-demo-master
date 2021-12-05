@@ -69,4 +69,12 @@ DataStorageStatus DataStorage_Append(DataStorageList* list, uint8_t* data);
  */
 DataStorageStatus DataStorage_Pop(DataStorageList* list, uint8_t* data);
 
+/**
+ * @brief If the write and read index are equal the ringbuffer is considered empty.
+ *
+ * @param list Pointer to the ringbuffer.
+ * @return Returns boolean if read and write index are equal.
+ */
+int DataStorage_IsEmpty(DataStorageType* list)
+
 #endif /* INC_DATA_STORAGE_H_ */

@@ -34,7 +34,6 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 
 #include "cpu_cfg.h"
-#include "esp_device.h"
 #include "sensortype.h"
 
 #include <os.h>

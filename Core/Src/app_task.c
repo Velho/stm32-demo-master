@@ -5,9 +5,11 @@
 #include <bme280/bme280_defs.h>
 
 #include "bme_task.h"
-#include "datastorage.h"
+#include "comm_task.h"
 #include "lcd_display.h"
 #include "main.h"
+
+#ifdef ESP_MASTER
 
 #ifndef SEL_HW_PUSHBUTTON
 #define APP_PUSHBUTTON_GPIO GPIO_BluePushButton1_GPIO_Port
@@ -18,15 +20,13 @@
 #endif
 
 EspPushButtonHandleTask espPushButtonHandleTask = {
+    .selectedSensorType = 0,
     .taskHandle = {.handleName = "Push Button Task", .fnTaskInit = NULL, .fnTaskHandle = App_PushButtonTask},
 };
 
 EspMainAppHandleTask espMainAppHandleTask = {
     .taskHandle = {.handleName = "Main App Task", .fnTaskInit = App_Init, .fnTaskHandle = App_Task},
 };
-
-// TODO Add mutex to this.
-static SensorType g_UserMode = SENSOR_TYPE_TEMP;
 
 static char buffer[16];
 
@@ -35,6 +35,18 @@ static uint8_t g_LutSensors[] = {
     BME280_TEMP,
     BME280_HUM,
 };
+
+
+/**
+ * @brief Get the Bme Data Field object
+ *
+ * @param data Pointer to the object from the Ringbuffer.
+ * @return double Field from the struct.
+ */
+static double GetBmeDataField(struct bme280_data* data)
+{
+    return *((double*)((struct bme280_data*)data) + espPushButtonHandleTask.selectedSensorType);
+}
 
 int App_Init()
 {
@@ -50,13 +62,11 @@ void App_Task(void* p_arg)
 
     while (1)
     {
+        double value;
         DataStorageStatus status;
         struct bme280_data bmeData = {0};
 
-        status = DataStorage_Pop(
-            /* &espBmeSensorHandleTask.dsSensorList */
-        		NULL
-            , (uint8_t*)&bmeData);
+        status = DataStorage_Pop(&espCommRxTaskHandle.dsCommRxList, (uint8_t*)&bmeData);
 
         if (status != DATASTORAGE_OK)
         {
@@ -64,12 +74,13 @@ void App_Task(void* p_arg)
         }
         else
         {
-            if (g_UserMode >= SENSOR_TYPE_ALL)
+            if (espPushButtonHandleTask.selectedSensorType >= SENSOR_TYPE_ALL)
             {
                 // Error something error.
             }
 
-            Display_SetMode(g_UserMode, *((double*)((struct bme280_data*)&bmeData) + g_UserMode));
+            value = GetBmeDataField(&bmeData);
+            Display_SetMode(espPushButtonHandleTask.selectedSensorType, value);
             Display_Update();
         }
 
@@ -79,7 +90,12 @@ void App_Task(void* p_arg)
 
 uint8_t App_GetUserMode()
 {
-    return g_LutSensors[g_UserMode];
+    return g_LutSensors[espPushButtonHandleTask.selectedSensorType];
+}
+
+uint8_t App_GetSensorType()
+{
+    return espPushButtonHandleTask.selectedSensorType;
 }
 
 void App_PushButtonTask(void* p_arg)
@@ -92,16 +108,16 @@ void App_PushButtonTask(void* p_arg)
     {
         if (HAL_GPIO_ReadPin(APP_PUSHBUTTON_GPIO, APP_PUSHBUTTON_PIN) == GPIO_PIN_RESET)
         {
-            g_UserMode += 1;
+            espPushButtonHandleTask.selectedSensorType += 1;
 
-            if (g_UserMode >= SENSOR_TYPE_ALL)
+            if (espPushButtonHandleTask.selectedSensorType >= SENSOR_TYPE_ALL)
             {
-                // g_PushButtonCounter = 1;
-                g_UserMode = 0;
+                espPushButtonHandleTask.selectedSensorType = 0;
             }
-            // g_PushButtonCounter += 1;
         }
 
         OSTimeDly(200, OS_OPT_TIME_DLY, &p_err);
     }
 }
+
+#endif
