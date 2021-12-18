@@ -102,7 +102,6 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
-  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
     OSTaskCreate(&EspStartupTaskTCB, "Esp Boot Task", EspStartupTask, 0u, 3u, EspStartupTaskStk,
